@@ -38,9 +38,12 @@ describe("Str", () => {
       // Exception rule: 'ê' and 'ơ' have priority regardless of position
       expect(Str.normalizeVietnameseAccent("thủơ")).toBe("thuở");
       expect(Str.normalizeVietnameseAccent("thuở")).toBe("thuở");
+      expect(Str.normalizeVietnameseAccent("gìơi")).toBe("giời");
+      expect(Str.normalizeVietnameseAccent("giơì")).toBe("giời");
       expect(Str.normalizeVietnameseAccent("chụyên")).toBe("chuyện");
       expect(Str.normalizeVietnameseAccent("chuỵên")).toBe("chuyện");
       expect(Str.normalizeVietnameseAccent("chuyện")).toBe("chuyện");
+      expect(Str.normalizeVietnameseAccent("qúê")).toBe("quế");
     });
 
     it("should handle mixed case correctly", () => {
@@ -57,16 +60,16 @@ describe("Str", () => {
 
     it("should handle multiple words in a sentence", () => {
       expect(Str.normalizeVietnameseAccent("toà nhà tòan")).toBe(
-        "tòa nhà toàn"
+        "tòa nhà toàn",
       );
       expect(Str.normalizeVietnameseAccent("tòa nhà toàn")).toBe(
-        "tòa nhà toàn"
+        "tòa nhà toàn",
       );
       expect(Str.normalizeVietnameseAccent("thuỷ, thủơ, chuỵên")).toBe(
-        "thủy, thuở, chuyện"
+        "thủy, thuở, chuyện",
       );
       expect(Str.normalizeVietnameseAccent("thủy, thuở, chuyện")).toBe(
-        "thủy, thuở, chuyện"
+        "thủy, thuở, chuyện",
       );
     });
 
@@ -83,10 +86,10 @@ describe("Str", () => {
 
     it("should preserve whitespace", () => {
       expect(Str.normalizeVietnameseAccent("  toà  nhà  ")).toBe(
-        "  tòa  nhà  "
+        "  tòa  nhà  ",
       );
       expect(Str.normalizeVietnameseAccent("  tòa  nhà  ")).toBe(
-        "  tòa  nhà  "
+        "  tòa  nhà  ",
       );
       expect(Str.normalizeVietnameseAccent("toà\nnhà")).toBe("tòa\nnhà");
       expect(Str.normalizeVietnameseAccent("tòa\nnhà")).toBe("tòa\nnhà");
@@ -112,11 +115,15 @@ describe("Str", () => {
       // Special rule: "già" and "quạ" are not diphthongs but "gi" + "à" and "qu" + "ạ"
       expect(Str.normalizeVietnameseAccent("gì")).toBe("gì");
       expect(Str.normalizeVietnameseAccent("gìa")).toBe("già");
-      expect(Str.normalizeVietnameseAccent("qụa")).toBe("quạ");
       expect(Str.normalizeVietnameseAccent("gía")).toBe("giá");
-      expect(Str.normalizeVietnameseAccent("qủa")).toBe("quả");
       expect(Str.normalizeVietnameseAccent("gỉa")).toBe("giả");
+      expect(Str.normalizeVietnameseAccent("gĩư gìn")).toBe("giữ gìn");
+      expect(Str.normalizeVietnameseAccent("gỉai")).toBe("giải");
+      expect(Str.normalizeVietnameseAccent("giaỉ")).toBe("giải");
+      expect(Str.normalizeVietnameseAccent("qủa")).toBe("quả");
       expect(Str.normalizeVietnameseAccent("qúa")).toBe("quá");
+      expect(Str.normalizeVietnameseAccent("qúy")).toBe("quý");
+      expect(Str.normalizeVietnameseAccent("qúăt")).toBe("quắt");
       expect(Str.normalizeVietnameseAccent("qủan")).toBe("quản");
       expect(Str.normalizeVietnameseAccent("qúan")).toBe("quán");
     });

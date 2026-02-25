@@ -123,12 +123,19 @@ export default class Str {
       const specialConsonants = ["gi", "qu"];
       let accentIndex = -1;
 
+      const hasVowelFrom = (fromIndex: number): boolean => {
+        return [...word].slice(fromIndex).some((c) => {
+          const { base } = extractAccent(c);
+          return !!accentMap[base] || !!accentMap[base.toLowerCase()];
+        });
+      };
+
       for (let i = 0; i < word.length; i++) {
         const char = word[i];
         const { base, mark } = extractAccent(char);
         let isSpecialConsonant = false;
 
-        if (i === 0 && word.length > 2) {
+        if (i === 0 && word.length > 2 && hasVowelFrom(2)) {
           // Check if this is part of a special consonant cluster "gi" and "qu"
           const nextChar = extractAccent(word[i + 1]);
           const currentPair = char + nextChar.base;
@@ -157,7 +164,7 @@ export default class Str {
               accent: mark,
             });
             correctChars.push(
-              applyAccent(base, accentIndex !== -1 ? accentIndex : mark)
+              applyAccent(base, accentIndex !== -1 ? accentIndex : mark),
             );
             accentIndex = -1;
           } else {
